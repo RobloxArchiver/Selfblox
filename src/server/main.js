@@ -27,6 +27,6 @@ Server.on("connection", (Socket) => {
 
     Socket.on("message", (req) => {
         console.log("Request Received: %s", req);
-        Socket.send("Hello, Nigger!");
+        Socket.send("Hello, Person!");
     });
 });
