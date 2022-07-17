@@ -1,5 +1,15 @@
 # Latest updates are at the top!
 
+# v0.1.3 Alpha Hotfix
+
+Client Changes:
+* `CONNECTION_STATUS` and `REQUEST_COMMANDS` are now deprecated.
+* `SELFBLOX` table added containing a `STATUS` and `REQUESTS` table.
+
+Server Changes:
+* `CONNECTION_STATUS` and `REQUEST_COMMANDS` are now deprecated.
+* `SELFBLOX` table added containing a `STATUS` and `REQUESTS` table.
+
 # v0.1.2 Alpha Release (Client & Server)
 
 Client Changes:
