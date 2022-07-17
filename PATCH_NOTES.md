@@ -1,4 +1,4 @@
-# Latest are at the top!
+# Latest updates are at the top!
 
 # v0.1.2 Alpha Release (Client & Server)
 
