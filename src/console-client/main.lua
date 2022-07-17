@@ -14,7 +14,8 @@ local CONNECTION_STATUS = {
     DISCONNECTED = "02",
     FAILED_TO_CONNECT = "03",
     ATTEMPTING_TO_CONNECT = "04",
-    DISCONNECTING = "05"
+    DISCONNECTING = "05",
+    PROCESS_COMPLETE = "06",
 }
 
 local REQUEST_COMMANDS = {
@@ -89,10 +90,9 @@ handler:add("server", function(Request)
         client.output_console("print", "    clear => Clears the Server's Console.")
     elseif Request == "close" then
         WebSocket:Send(CONNECTION_STATUS.DISCONNECTING)
-        WebSocket:Close()
+        WebSocket:Close() -- Client still needs to send Close request.
     elseif Request == "clear" then
         WebSocket:Send(REQUEST_COMMANDS.CLEAR)
-        client.output_console("success", "Cleared the Console.")
     end
 end)
 
@@ -108,6 +108,12 @@ if websocket_connected then
 
     WebSocket.OnClose:Connect(function()
         client.output_console("warn", "WebSocket Closed!")
+    end)
+
+    WebSocket.OnMessage:Connect(function(Request)
+        if Request == CONNECTION_STATUS.PROCESS_COMPLETE then
+            client.output_console("success", "Request Complete!")
+        end
     end)
 
     handler:create()
