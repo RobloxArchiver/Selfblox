@@ -4,8 +4,10 @@
 
 ]]
 
+local WS = (syn and syn.websocket.connect) or (WebSocket.connect)
+local rconsolename = (syn and rconsolename) or (rconsolesettitle)
 local client = { connection = "ws://localhost:8765/" }; rconsoleclear()
-local websocket_connected, websocket_error = pcall(function() WebSocket = syn.websocket.connect( client.connection ) end)
+local websocket_connected, websocket_error = pcall(function() WebSocket = WS( client.connection ) end)
 
 local CONNECTION_STATUS = {
     CONNECTED = "01",
