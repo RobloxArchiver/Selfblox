@@ -1,6 +1,10 @@
 # Latest are at the top!
 
-# 0.1.0 Alpha Release
+# v0.1.1 Alpha Hotfix
+
+* Added Script-Ware Support and possible krnl Support (I need KRNL Testers) 
+
+# v0.1.0 Alpha Release
 
 It's official, today I can finally say I have done enough as to where I can release a working client! The features are lousy (2 actual, 4 in total) but hey! Now I can write a guide right?
 
