@@ -2,31 +2,44 @@
 const { WebSocketServer } = require("ws");
 const cfg = { port: 8765 };
 
-// Request Types
+/* Request Types
 const CONNECTION_STATUS = {
     CONNECTED: Symbol(01),
     DISCONNECTED: Symbol(02),
     FAILED_TO_CONNECT: Symbol(03),
     ATTEMPTING_TO_CONNECT: Symbol(04),
+    DISCONNECTING: Symbol(05),
 };
 
-const STATUS_TYPES = {
-    COMPLETE: Symbol(00),
-    SENT: Symbol(01),
+const REQUEST_COMMANDS = {
+    CLEAR: Symbol(10),
 };
+*/
 
 // Server
 const Server = new WebSocketServer({ port: cfg.port });
 
 Server.on("listening", () => {
-    console.log("Server now Listening for any connections.");
-});
+    console.log("Listening for Client.");
+    Server.on("connection", (Socket, Client) => {
+        console.clear();
+        console.log("[LOG] Client Connected to %s.", Client.socket.remoteAddress);
 
-Server.on("connection", (Socket) => {
-    console.log("Client Connected.");
+        Socket.on("message", (Request) => {
+            console.log("[LOG] Request Received: %s", Request);
+            const Req = Request.toString()
 
-    Socket.on("message", (req) => {
-        console.log("Request Received: %s", req);
-        Socket.send("Hello, Person!");
+            if (Req == "05") { // Client Disconnecting
+                console.log("[LOG] Client Disconnecting.");
+            } else if (Req == "10") { // Clear Console
+                console.clear();
+            } else { // Invalid Request
+                console.log("[LOG] %s is not a valid request.", Request)
+            }
+        });
+
+        Socket.on("close", () => {
+            console.log("[LOG] WebSocket Closed!");
+        });
     });
 });
