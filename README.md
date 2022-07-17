@@ -1,4 +1,4 @@
-# About | Current Version: 0.1.1 Alpha
+# About | Current Version: 0.1.2 Alpha
 
 Selfbot like client for Roblox using Synapse X with WebSocket enabled and a WebSocket Server to take requests. Also I am aware this is useless, this is a learning experience for me/a personal project. I don't care what you think :)
 
