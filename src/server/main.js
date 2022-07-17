@@ -2,17 +2,18 @@
 const { WebSocketServer } = require("ws");
 const cfg = { port: 8765 };
 
-const CONNECTION_STATUS = {
-    CONNECTED: "01",
-    DISCONNECTED: "02",
-    FAILED_TO_CONNECT: "03",
-    ATTEMPTING_TO_CONNECT: "04",
-    DISCONNECTING: "05",
-    PROCESS_COMPLETE: "06",
-};
-
-const REQUEST_COMMANDS = {
-    CLEAR: "10",
+const SELFBLOX = {
+    STATUS: {
+        CONNECTED: "01",
+        DISCONNECTED: "02",
+        FAILED_TO_CONNECT: "03",
+        ATTEMPTING_TO_CONNECT: "04",
+        DISCONNECTING: "05",
+        PROCESS_COMPLETE: "06",
+    },
+    REQUESTS: {
+        CLEAR: "10",
+    },
 };
 
 // Server
@@ -35,14 +36,14 @@ Server.on("listening", () => {
             console.log("[LOG] Request Received: %s", Request);
             const Req = Request.toString();
 
-            if (Req == CONNECTION_STATUS.DISCONNECTING) {
+            if (Req == SELFBLOX.STATUS.DISCONNECTING) {
                 // Client Disconnecting
                 console.log("[LOG] Client Disconnecting.");
-            } else if (Req == REQUEST_COMMANDS.CLEAR) {
+            } else if (Req == SELFBLOX.REQUESTS.CLEAR) {
                 // Clear Console
                 console.clear();
                 // Send PROCESS_COMPLETE
-                Socket.send(CONNECTION_STATUS.PROCESS_COMPLETE);
+                Socket.send(SELFBLOX.STATUS.PROCESS_COMPLETE);
             } else {
                 // Invalid Request
                 console.log("[LOG] %s is not a valid request.", Request);
