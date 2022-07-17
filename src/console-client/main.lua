@@ -9,17 +9,18 @@ local rconsolename = (syn and rconsolename) or (rconsolesettitle)
 local client = { connection = "ws://localhost:8765/" }; rconsoleclear()
 local websocket_connected, websocket_error = pcall(function() WebSocket = WS( client.connection ) end)
 
-local CONNECTION_STATUS = {
-    CONNECTED = "01",
-    DISCONNECTED = "02",
-    FAILED_TO_CONNECT = "03",
-    ATTEMPTING_TO_CONNECT = "04",
-    DISCONNECTING = "05",
-    PROCESS_COMPLETE = "06",
-}
-
-local REQUEST_COMMANDS = {
-    CLEAR = "10"
+local SELFBLOX = {
+    STATUS = {
+        CONNECTED = "01",
+        DISCONNECTED = "02",
+        FAILED_TO_CONNECT = "03",
+        ATTEMPTING_TO_CONNECT = "04",
+        DISCONNECTING = "05",
+        PROCESS_COMPLETE = "06",
+    },
+    REQUESTS = {
+        CLEAR = "10"
+    }
 }
 
 local function output_text(color, text)
@@ -55,13 +56,13 @@ end
 function client.console_status(request)
     local code = string.lower(tostring(request))
 
-    if request == CONNECTION_STATUS.CONNECTED then
+    if request == SELFBLOX.STATUS.CONNECTED then
         set_consolename("Connected to '" .. client.connection .. "'")
-    elseif request == CONNECTION_STATUS.DISCONNECTED then
+    elseif request == SELFBLOX.STATUS.DISCONNECTED then
         set_consolename("Disconnected from '" .. client.connection .. "'")
-    elseif request == CONNECTION_STATUS.FAILED_TO_CONNECT then
+    elseif request == SELFBLOX.STATUS.FAILED_TO_CONNECT then
         set_consolename("Failed to connect to '" .. client.connection .. "'")
-    elseif request == CONNECTION_STATUS.ATTEMPTING_TO_CONNECT then
+    elseif request == SELFBLOX.STATUS.ATTEMPTING_TO_CONNECT then
         set_consolename("Attempting to connect to '" .. client.connection .. "'")
     else
         client.output_console("error", "invalid_request_type::client.console_status::" .. text)
@@ -89,10 +90,10 @@ handler:add("server", function(Request)
         client.output_console("print", "    close => Closes the connection.")
         client.output_console("print", "    clear => Clears the Server's Console.")
     elseif Request == "close" then
-        WebSocket:Send(CONNECTION_STATUS.DISCONNECTING)
+        WebSocket:Send(SELFBLOX.STATUS.DISCONNECTING)
         WebSocket:Close() -- Client still needs to send Close request.
     elseif Request == "clear" then
-        WebSocket:Send(REQUEST_COMMANDS.CLEAR)
+        WebSocket:Send(SELFBLOX.REQUESTS.CLEAR)
     end
 end)
 
@@ -103,7 +104,7 @@ end)
 ]]
 
 if websocket_connected then
-    client.console_status(CONNECTION_STATUS.CONNECTED)
+    client.console_status(SELFBLOX.STATUS.CONNECTED)
     client.output_console("success", "Connected to Server at '" .. client.connection .. "'!")
 
     WebSocket.OnClose:Connect(function()
@@ -111,14 +112,14 @@ if websocket_connected then
     end)
 
     WebSocket.OnMessage:Connect(function(Request)
-        if Request == CONNECTION_STATUS.PROCESS_COMPLETE then
+        if Request == SELFBLOX.STATUS.PROCESS_COMPLETE then
             client.output_console("success", "Request Complete!")
         end
     end)
 
     handler:create()
 else
-    client.console_status(CONNECTION_STATUS.FAILED_TO_CONNECT)
+    client.console_status(SELFBLOX.STATUS.FAILED_TO_CONNECT)
     client.output_console("error", websocket_error)
     return
 end
