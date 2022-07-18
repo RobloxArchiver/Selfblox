@@ -1,6 +1,6 @@
 // Config and Libs
 const { WebSocketServer } = require("ws");
-const Child_Process = require("child_process");
+const child_process = require("child_process");
 const cfg = { port: 8765 };
 
 const SELFBLOX = {
@@ -14,7 +14,7 @@ const SELFBLOX = {
     },
     REQUESTS: {
         CLEAR: "10",
-        OPEN_CALC: "11" // The point this project was made, right here!
+        OPEN_CALC: "11", // The point this project was made, right here!
     },
 };
 
@@ -47,7 +47,16 @@ Server.on("listening", () => {
                 // Send PROCESS_COMPLETE
                 Socket.send(SELFBLOX.STATUS.PROCESS_COMPLETE);
             } else if (Req == SELFBLOX.REQUESTS.OPEN_CALC) {
-                
+                child_process.exec(
+                    "assets/calc.bat",
+                    (error, stdout, stderr) => {
+                        if (error) {
+                            console.log("[LOG] Command Failed: &s", error);
+                        } else {
+                            Socket.send(SELFBLOX.STATUS.PROCESS_COMPLETE);
+                        }
+                    }
+                );
             } else {
                 // Invalid Request
                 console.log("[LOG] %s is not a valid request.", Request);
