@@ -4,8 +4,11 @@
 
 Client Changes:
 * Added `open_calc` Command.
+* Added `OPEN_CALC` Request to `SELFBLOX.REQUESTS`. ID: 11
 
 Server Changes:
+* Added `open_calc` Handling.
+* Added `OPEN_CALC` Request to `SELFBLOX.REQUESTS`. ID: 11
 
 # v0.1.3 Alpha Hotfix (Client & Server)
 
