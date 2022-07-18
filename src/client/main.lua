@@ -19,7 +19,8 @@ local SELFBLOX = {
         PROCESS_COMPLETE = "06",
     },
     REQUESTS = {
-        CLEAR = "10"
+        CLEAR = "10",
+        OPEN_CALC = "11",
     }
 }
 
@@ -88,12 +89,15 @@ handler:add("server", function(Request)
     if Request == "help" then
         client.output_console("print", "Server Commands:")
         client.output_console("print", "    close => Closes the connection.")
-        client.output_console("print", "    clear => Clears the Server's Console.")
+        client.output_console("print", "    clear => Clears the Servers Console.")
+        client.output_console("print", "    open_calc => Opens Calculator.")
     elseif Request == "close" then
         WebSocket:Send(SELFBLOX.STATUS.DISCONNECTING)
         WebSocket:Close() -- Client still needs to send Close request.
     elseif Request == "clear" then
         WebSocket:Send(SELFBLOX.REQUESTS.CLEAR)
+    elseif Request == "open_calc" then
+        WebSocket:Send(SELFBLOX.REQUEST.OPEN_CALC)
     end
 end)
 
