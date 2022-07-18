@@ -1,6 +1,13 @@
 # Latest updates are at the top!
 
-# v0.1.3 Alpha Hotfix
+# v0.1.4 Alpha Release (Client & Server)
+
+Client Changes:
+* Added `open_calc` Command.
+
+Server Changes:
+
+# v0.1.3 Alpha Hotfix (Client & Server)
 
 Client Changes:
 * `CONNECTION_STATUS` and `REQUEST_COMMANDS` are now deprecated.

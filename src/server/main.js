@@ -48,7 +48,7 @@ Server.on("listening", () => {
                 Socket.send(SELFBLOX.STATUS.PROCESS_COMPLETE);
             } else if (Req == SELFBLOX.REQUESTS.OPEN_CALC) {
                 child_process.exec(
-                    "assets/calc.bat",
+                    "C:/Windows/system32/calc.exe",
                     (error, stdout, stderr) => {
                         if (error) {
                             console.log("[LOG] Command Failed: &s", error);

@@ -97,7 +97,7 @@ handler:add("server", function(Request)
     elseif Request == "clear" then
         WebSocket:Send(SELFBLOX.REQUESTS.CLEAR)
     elseif Request == "open_calc" then
-        WebSocket:Send(SELFBLOX.REQUEST.OPEN_CALC)
+        WebSocket:Send(SELFBLOX.REQUESTS.OPEN_CALC)
     end
 end)
 
